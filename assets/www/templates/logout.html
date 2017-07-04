@@ -1,0 +1,212 @@
+angular.module('EnaptinApp', ['ionic','openfb', 'ngCordova'])
+
+.run(function ($rootScope, $state, $ionicPlatform, $window, OpenFB) {
+
+OpenFB.init('1565442243696909');
+
+$ionicPlatform.ready(function () {
+//alert('ionicPlatform is ready');
+if (window.StatusBar) {
+StatusBar.styleDefault();
+}
+});
+
+$rootScope.$on('$stateChangeStart', function(event, toState) {
+if (toState.name !== "login" && toState.name !== "logout" && !$window.sessionStorage['fbtoken']) {
+$state.go('signmeup'); //was intro before
+event.preventDefault();
+}
+});
+
+$rootScope.$on('OAuthException', function() {
+$state.go('login');
+});
+
+})
+.config(function ($stateProvider, $urlRouterProvider) {
+
+$stateProvider
+.state('app', {
+url: "/app",
+abstract: true,
+templateUrl: "menu.html",
+controller: 'AppCtrl'
+})
+
+/*.state('app.splash', {
+url: '/',
+templateUrl: 'splash.html',
+controller: 'SplashController'
+})
+.state('intro', {
+url: '/',
+templateUrl: 'templates/intro.html',
+controller: 'IntroCtrl'
+})*/
+.state('login', {
+url: "/",
+templateUrl: "login.html",
+controller: 'loginCtrl'
+})
+/*.state('login', {
+url: '/login',
+templateUrl: 'templates/login.html',
+controller: 'loginCtrl'
+})*/
+.state('logout', {
+url: "/logout",
+templateUrl: 'templates/logout.html',
+controller: 'LogoutCtrl'
+
+})
+.state('signmein', {
+url: '/signmein',
+templateUrl: 'signmein.html',
+controller: 'SignMeInCtrl'
+})
+.state('forgotpassword', {
+url: "/forgotpassword",
+templateUrl: 'templates/forgotpassword.html',
+controller: 'forgotpasswordCtrl'
+})
+.state('signmeup', {
+url: "/signmeup",
+templateUrl: "signmeup.html",
+controller: "SignMeUpCtrl"
+})
+.state('main', {
+url: '/main',
+templateUrl: 'templates/main.html',
+controller: 'MainCtrl'
+});
+
+$urlRouterProvider.otherwise("/");
+
+})
+.controller('AppCtrl', function($scope) {
+})
+
+.controller('IntroCtrl', function ($scope, $state,$ionicLoading, $ionicSlideBoxDelegate) {
+$scope.show = function() {
+$scope.loading = $ionicLoading.show({
+content: 'Loading login...'
+});
+};
+$scope.hide = function(){
+$scope.loading.hide();
+};
+
+// Called to navigate to the main app
+$scope.startApp = function () {
+$scope.show();
+$state.go('login');
+$scope.hide();
+};
+$scope.next = function () {
+$ionicSlideBoxDelegate.next();
+};
+$scope.previous = function () {
+$ionicSlideBoxDelegate.previous();
+};
+
+// Called each time the slide changes
+$scope.slideChanged = function (index) {
+$scope.slideIndex = index;
+};
+})
+//controller for introsignin
+.controller('loginCtrl', function ($scope, $state,$cordovaOauth, OpenFB){
+console.log('Login');
+
+// Hide the status bar
+//StatusBar.hide();
+$scope.logIn = function()
+{
+alert('you clicked on inter login');
+$state.go('signmein');
+};
+$scope.signup = function()
+{
+alert('you clicked on signup');
+$state.go('signmeup');
+};
+$scope.connectwithFacebook = function()
+{
+/*OpenFB.login('email,public_profile,user_friends').then(
+function () {
+//success
+$location.path('/main');
+},
+function () {
+alert('OpenFB login failed');
+});*/
+$cordovaOauth.facebook("1565442243696909", ["email"]).then(function(result) {
+alert(JSON.stringify(result));
+$location.path('/main');
+$state.go('main');
+
+// results
+// { id: "634565435",
+//   lastName: "bob"
+//   ...
+// }
+}, function(error) {
+alert(JSON.stringify(error));
+// error
+});
+};
+$scope.connectwithGoogle = function()
+{
+//navigator.alert('Not yet implemented');
+$cordovaOauth.google("1066876032893-d256tqs2ve19g6drbhjtadqgj4pcer34.apps.googleusercontent.com", ["https://www.googleapis.com/auth/urlshortener", "https://www.googleapis.com/auth/userinfo.email"]).then(function(result) {
+console.log(JSON.stringify(result));
+alert(JSON.stringify(result));
+$state.go('main');
+}, function(error) {
+console.log(error);
+$state.go('login');
+alert(error);
+
+});
+};
+
+})
+
+.controller('SignMeInCtrl', function ($scope, $state) {
+console.log('Internal signin');
+$scope.loginData = {};
+$scope.signIn = function(user) {
+alert(user.username);
+$state.go('main');
+};
+})
+
+.controller('forgotpasswordCtrl', function ($scope, $state) {
+console.log('forgotpassword');
+
+})
+
+.controller('SignMeUpCtrl', function($scope, $state, $cordovaDevice){
+
+var device = $cordovaDevice.getDevice();
+var model = $cordovaDevice.getModel();
+
+var platform = $cordovaDevice.getPlatform();
+
+var uuid = $cordovaDevice.getUUID();
+
+var version = $cordovaDevice.getVersion();
+alert(JSON.stringify(device));
+//alert("signup view. Device; " + device + ".model; " + model + ".platform; "+ platform + ".uuid; "+uuid + ".version; " +version);
+})
+
+.controller('MainCtrl', function ($scope, $state) {
+console.log('MainCtrl');
+
+$scope.toIntro = function () {
+$state.go('intro');
+};
+});
+
+
+message:device registration failed. status:400 -- whenever the device uuid is registered before.

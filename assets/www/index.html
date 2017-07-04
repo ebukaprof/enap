@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html ng-app="EnaptinApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Enaptin Mobile</title>
+    <link href="css/ionic.min.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style type="text/css">
+        .white {
+            color: #fff;
+        }
+        .red {
+            color: red;
+        }
+        .blue {
+            color: #2b81af;
+        }
+        .twitterBlue {
+            color:#4099FF;
+        }
+        .appColor {
+            color: #1b5a83;
+        }
+        .appColorBg {
+            background-color: #1b5a83;
+        }
+    </style>
+
+    <script src="js/ionic.bundle.min.js"></script>
+    <script src="js/ng-cordova.js"></script>
+    <script src="cordova.js"></script>
+    <script src="js/app.js"></script>
+
+
+    <!--<script src="js/openfb-angular.js"></script>-->
+</head>
+
+<body animation="slide-left-right-ios7">
+<ion-nav-view animation="slide-left-right"></ion-nav-view>
+
+<script id="login.html" type="text/ng-template">
+    <ion-view title="Enaptin Mobile" hide-back-button="true" style="background: #1b5a83" hide-nav-bar="true">
+        <ion-content has-header="true" padding="true">
+
+            <div class="list list-inset"  style="background: #1b5a83">
+
+                <div class="text-center" id="logo">
+                    <img src="img/app_icon.png">
+                </div>
+                <h3 class="text-center white">Welcome</h3>
+                <p class="text-center white">Enaptin is the best place to learn about power.</p><br/>
+
+                <button class="button button-block bar-stable nav-clear" ng-click="connectwithFacebook()">
+                    <i class="icon ion-social-facebook blue"></i>
+                    &nbsp;Connect with Facebook
+                </button>
+                <button class="button button-block bar-stable nav-clear" ng-click="connectwithGoogle()">
+                    <i class="icon ion-social-google twitterBlue"></i>
+                    &nbsp;Connect with Google
+                </button>
+
+                <!--<button class="button button-block bar-stable nav-clear" ng-click="connectwithGoogle()">
+                    <i class="icon ion-social-googleplus red"></i>
+                    &nbsp;Sign in with Google
+                </button>-->
+
+                <button class="button button-block button-light" ng-click="signup()">
+                    Sign Up
+                </button>
+
+                <p class="text-center white"><button class="button button-block button-balanced" ng-click="logIn()"> I Already have an account </button><!--Already have an account?  <a class="btn bar-tabs" ng-click="logIn()" style="text-decoration: underline; color: #fff;">Login Here</a>--></p>
+
+
+            </div>
+
+        </ion-content>
+    </ion-view>
+</script>
+<script id="signmein.html" type="text/ng-template">
+    <ion-view title="Sign Me In" hide-back-button="false" hide-nav-bar="false">
+        <ion-header-bar class="appColorBg">
+            <!--<div class="buttons">
+                <button class="button button-icon ion-navicon"></button>
+            </div>-->
+            <h1 class="title white">Login</h1>
+        </ion-header-bar>
+        <ion-content padding="true">
+            <form ng-submit="BtnLogIn(user)">
+                <div class="list">
+                    <div class="text-center" id="logo">
+                        <img src="img/app_icon.png">
+                    </div><p/>
+
+                    <label class="item item-input">
+                        <i class="icon ion-ios7-person-outline placeholder-icon"></i>
+                        <span class="input-label">Username</span>
+                        <input type="email" ng-model="user.username" required>
+                    </label>
+                    <label class="item item-input">
+                        <i class="icon ion-ios7-locked-outline placeholder-icon"></i>
+                        <span class="input-label">Password</span>
+                        <input type="password" ng-model="user.password" required>
+                    </label>
+                </div>
+                <div class="padding">
+                    <button nav-clear class="button button-block appColorBg white">
+                        Sign me in to Enaptin
+                    </button>
+                    <div style="text-align: center">
+                        <!--<a ng-click="BtnForgotPassword()"><u>Forgot Password</u></a>-->
+                    </div>
+                </div>
+            </form>
+        </ion-content>
+    </ion-view>
+</script>
+
+<script id="signmeup.html" type="text/ng-template">
+    <ion-view title="Sign Me Up" hide-back-button="false" hide-nav-bar="false">
+        <ion-header-bar class="appColorBg">
+            <!--<div class="buttons">
+                <button class="button button-icon ion-navicon"></button>
+            </div>-->
+            <h1 class="title white">Create Account</h1>
+        </ion-header-bar>
+        <ion-content padding="true">
+
+            <form ng-submit="BtnSignUp(user)">
+                <!--<ion-list>
+                    <a class="item item-thumbnail-left">
+                        <img src="img/Camera-icon.png" id="myImage" name="myImage" ng-click="pic_upload()">
+                        <label class="item item-input">
+                            <i class="icon ion-ios7-person placeholder-icon"></i>
+                            <span class="input-label">First Name</span>
+                            <input type="text" ng-model="user.firstname">
+                        </label>
+                        <label class="item item-input">
+                            <i class="icon ion-ios7-person placeholder-icon"></i>
+                            <span class="input-label">Last Name</span>
+                            <input type="text" ng-model="user.lastname">
+                        </label>
+                    </a>
+                </ion-list>-->
+                <div class="list">
+                    <label class="item item-input">
+                        <i class="icon ion-ios7-person placeholder-icon"></i>
+                        <span class="input-label">First Name</span>
+                        <input type="text" ng-model="user.firstname">
+                    </label>
+                    <label class="item item-input">
+                        <i class="icon ion-ios7-person placeholder-icon"></i>
+                        <span class="input-label">Last Name</span>
+                        <input type="text" ng-model="user.lastname">
+                    </label>
+                    <label class="item item-input">
+                        <i class="icon ion-ios7-contact-outline placeholder-icon"></i>
+                        <span class="input-label">Address</span>
+                        <input type="text" ng-model="user.address">
+                    </label>
+                    <label class="item item-input">
+                        <i class="icon ion-ios7-contact placeholder-icon"></i>
+                        <span class="input-label">City</span>
+                        <input type="text" ng-model="user.city">
+                    </label>
+                    <label class="item item-input">
+                        <i class="icon ion-ios7-telephone placeholder-icon"></i>
+                        <span class="input-label">Phone Number</span>
+                        <input type="tel" ng-model="user.phone">
+                    </label>
+                    <label class="item item-input">
+                        <i class="icon ion-ios7-browsers placeholder-icon"></i>
+                        <span class="input-label">Facebook ID</span>
+                        <input type="text" ng-model="user.facebookid">
+                    </label>
+                    <label class="item item-input">
+                        <i class="icon ion-ios7-browsers placeholder-icon"></i>
+                        <span class="input-label">Twitter ID</span>
+                        <input type="text" ng-model="user.twitterid">
+                    </label>
+                    <label class="item item-input ">
+                        <i class="icon ion-ios7-briefcase placeholder-icon"></i>
+                        <span class="input-label" >Qualification</span>
+                        <select ng-model="user.selectedQualification" style="width:200px; height:50px; margin-left:10px;"
+                                ng-options="myValue.title for myValue in qualificationList"
+                                ng-init="user.selectedQualification = qualificationList[0]">
+
+                        </select>
+                    </label>
+                    <label class="item item-input ">
+                        <i class="icon ion-ios7-analytics placeholder-icon"></i>
+                        <span class="input-label" >User Type</span>
+                        <select ng-model="user.userTypeSelected" style="width:200px; height:50px; margin-left:10px;"
+                                ng-options="myValue.usertype for myValue in usertypes"
+                                ng-init="user.userTypeSelected = usertypes[0]">
+
+                        </select>
+                    </label>
+                    <!--<div class="list">
+                        <br/>
+                        <h4 class="appColor"><strong>User Type</strong></h4>
+                        <div class="list list-inset" ng-repeat="usertype in usertypes">
+                            <ion-radio ng-model="user.usertype" ng-value="usertype.usertype">{{usertype.usertype}}</ion-radio>
+                        </div>
+                    </div>-->
+
+
+                    <div>
+                        <!--style="border:1px solid #1b5a83;border-top-color:#1b5a83;border-top-right-radius: 5px;border-bottom-left-radius: 5px;"-->
+                        <br/>
+                        <h4 class="appColor"><strong>Login Details</strong></h4>
+
+                        <label class="item item-input">
+                            <i class="icon ion-ios7-email placeholder-icon"></i>
+                            <span class="input-label">Email</span>
+                            <input type="email" ng-model="user.email" autocorrect="off" ng-minlength="5" required>
+                        </label>
+                        <label class="item item-input">
+                            <i class="icon ion-ios7-locked placeholder-icon"></i>
+                            <span class="input-label">Password</span>
+                            <input type="password" ng-model="user.password" ng-minlength="5" required>
+                        </label>
+                        <label class="item item-input">
+                            <i class="icon ion-ios7-locked placeholder-icon"></i>
+                            <span class="input-label">Confirm Password</span>
+                            <input type="password" ng-model="user.confirmPassword">
+                        </label>
+                    </div>
+                </div>
+                <div class="padding">
+                    <button nav-clear class="button button-block appColorBg white">
+                        Sign Up
+                    </button>
+                   <!-- <button nav-clear class="button button-block appColorBg white" ng-click="GetSomething(user)">
+                        Get Something
+                    </button>-->
+
+
+                </div>
+            </form>
+        </ion-content>
+    </ion-view>
+</script>
+
+<script id="courses.html" type="text/ng-template">
+    <ion-view title="Enaptin - Course Lists" hide-back-button="false" hide-nav-bar="false">
+        <ion-header-bar class="appColorBg">
+            <h1 class="title white">Enaptin - Course List</h1>
+        </ion-header-bar>
+        <ion-content padding="false">
+            <ion-refresher on-refresh="refreshCourses()" style="padding-top:20px; vertical-align:middle;">Pull to refresh</ion-refresher>
+            <!--the news list-->
+            <div class="list">
+
+                <a ng-repeat="item in items" ui-sref='app.courseDetail({id: item.id,category:item.category,name:item.name,author:item.authorinfo,image:item.imagelink,duration:item.duration,description:item.description,tutorid:item.tutorid,amount:item.amount,regfee:item.reg_fee})'  class="item item-thumbnail-left item-text-wrap">
+                    <img class="img-rounded" ng-src="{{item.imagelink}}">
+                    <h2 style="color:#B20000;"><strong>{{ item.name }}</strong></h2>
+                    <span class="item-desc" style="color:#333;" ng-bind-html="item.description | cut:true:120:' ...'"> </span>
+                    <h3 class="icon ion-person" style="color:grey; float:right;"> {{ item.authorinfo }} </h3>
+
+                </a>
+                <!--href="#/event/detail"     ng-click="showDetail($index)"  href="#/event/detail/21" ui-sref='eventmenu.detail({detailId: item.id})'-->
+            </div>
+
+        </ion-content>
+    </ion-view>
+</script>
+
+<script id="courseDetail.html" type="text/ng-template">
+    <ion-view title="Enaptin - Course Detail" hide-back-button="false" hide-nav-bar="false">
+        <ion-nav-buttons side="right">
+            <!--<a style="color: white;" class="button button-icon icon ion-trash-a"></a>-->
+            <a style="color: white; font-size:20px; margin-top:10px;" class="icon ion-android-share" ng-click="shareAnywhere()"></a>
+        </ion-nav-buttons>
+        <ion-header-bar class="appColorBg">
+            <!--<div class="buttons">
+                <button class="button button-icon ion-navicon"></button>
+            </div>-->
+            <h1 class="title white">Enaptin - Course Detail</h1>
+        </ion-header-bar>
+        <ion-content padding="true">
+            <div class="list card">
+                <div class="item item-avatar">
+                    <img ng-src="{{ image }}">
+                    <h2 class="item-text-wrap" style="color:#B20000;"><strong>{{ name }}</strong></h2>
+                    <p class="icon ion-person"> {{ author }}</p>
+
+                </div>
+
+                <div class="item item-body">
+                    <img class="full-image" ng-src="{{ image }}">
+                    <p>
+                    <div ng-bind-html="description"></div>
+
+                    </p>
+                    <h3 style="color:grey; float:left;" ng-if="{{videochapters}} != 0 && {{docchapters}} != 0">{{videochapters}} video chapter(s), {{docchapters}} document chapter(s)</h3>
+                    <!--<h3 style="color:grey; float:left;">{{coursemessage}}</h3>-->
+                    <p>
+                        <a href="#" class="subdued" style="float:left;"> Reg fee: {{regfee}}, Amount: N{{amount}}</a>
+                        <a href="#" class="subdued" style="float:right;"> Duration: {{duration}}</a>
+                    </p>
+                </div>
+
+                <div class="item tabs tabs-secondary tabs-icon-left">
+                    <a class="tab-item appColorBg white" ng-click="OpenVideo()">
+                        <i class="icon ion-videocamera white"></i>
+                        Videos
+                    </a>
+                    <a class="tab-item appColorBg white" ng-click="OpenDocument()">
+                        <i class="icon ion-document white"></i>
+                        Documents
+                    </a>
+                    <a class="tab-item appColorBg white" ng-click="ShowTutorInfo()">
+                        <i class="icon ion-clipboard white"></i>
+                        About Tutor
+                    </a>
+                    <a class="tab-item appColorBg white" ng-click="RegisterCourse()">
+                        <i class="icon ion-clipboard white"></i>
+                        Register
+                    </a>
+
+                </div>
+
+            </div>
+        </ion-content>
+    </ion-view>
+</script>
+
+<script id="forgotpassword.html" type="text/ng-template">
+    <ion-view title="Forgot Password" hide-back-button="false" hide-nav-bar="false">
+        <ion-header-bar class="appColorBg">
+            <h1 class="title white">Forgot Password</h1>
+        </ion-header-bar>
+        <ion-content padding="true">
+            <div class="list">
+                <p>
+                    <h4>Enter your registered email to reset your account. The system will generate a new password which will be sent to your registered email address.</h4>
+                </p>
+                <label class="item item-input">
+                    <span class="input-label">Email</span>
+                    <input type="email" ng-model="user.email">
+                </label>
+
+            </div>
+            <div class="padding">
+                <button nav-clear class="button button-block appColorBg white" ng-click="IForgotPassword()">
+                    Submit
+                </button>
+                <div style="text-align: center">
+                    <a ng-click="GoToFirst()">Login with Facebook or Google</a>
+                </div>
+            </div>
+
+        </ion-content>
+    </ion-view>
+</script>
+
+<script id="thankyou.html" type="text/ng-template">
+    <ion-view title="Thank You" hide-back-button="false" hide-nav-bar="false">
+        <ion-header-bar class="appColorBg">
+            <h1 class="title white">Thank You</h1>
+        </ion-header-bar>
+        <ion-content padding="true">
+            <div style="text-align:center; margin-top: 150px"> <h2 class="title" style = "color:blue;">Your Registration Was Successful </h2>
+
+                <button nav-clear class="button button-small appColorBg white" ng-click="continueToLogin()">
+                    Click To Continue
+                    <i class="icon ion-android-arrow-forward"></i>
+                </button>
+
+            </div>
+
+        </ion-content>
+    </ion-view>
+</script>
+
+<script id="menu.html" type="text/ng-template">
+    <ion-side-menus>
+
+        <ion-side-menu-content>
+            <ion-nav-bar class="appColorBg white nav-title-slide-ios7">
+                <ion-nav-back-button class="button-clear"><i class="ion-arrow-left-c white"></i> </ion-nav-back-button>
+            </ion-nav-bar>
+            <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
+        </ion-side-menu-content>
+
+        <ion-side-menu side="left">
+            <!--<header class="bar bar-header">
+                <h1 class="title white"></h1>
+            </header>-->
+            <ion-content class="has-header bar-dark">
+                <ion-list>
+                    <!--<ion-item menu-close ng-click="myProfile()">
+                        Profile
+                    </ion-item>
+                    <ion-item menu-close href="">
+                        Change Password
+                    </ion-item>-->
+                    <!--<ion-item menu-close href="">
+                        My Courses
+                    </ion-item>-->
+                    <ion-item menu-close href="">
+                        My Students <span style="font-size:0.7em;">(only for tutors)</span>
+                    </ion-item>
+                    <!--<ion-item menu-close href="">
+                        Document Lists
+                    </ion-item>
+                    <ion-item menu-close href="">
+                        Video Lists
+                    </ion-item> href="#/app/login"-->
+                    <ion-item nav-clear menu-close ng-click="logmeOut()">
+                        Logout
+                    </ion-item>
+                </ion-list>
+            </ion-content>
+        </ion-side-menu>
+    </ion-side-menus>
+
+</script>
+
+<script id="maintutor.html" type="text/ng-template">
+    <ion-view title="Enaptin Mobile" hide-back-button="false" hide-nav-bar="false">
+        <ion-header-bar class="appColorBg">
+            <h1 class="title appColorBg white">Enaptin Mobile</h1>
+        </ion-header-bar>
+        <ion-nav-buttons side="left">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon white"></button>
+        </ion-nav-buttons>
+
+        <ion-content>
+            <ion-list>
+                <a class="item item-thumbnail-left">
+                    <img ng-src="{{ image }}">
+                    <h2 class="appColor" style="font-size:1.2em"><strong> {{ display_name }} </strong></h2>
+                    <h2 class="appColor"><strong> {{ email }} </strong></h2>
+
+                    <div>
+                        <button class="button button-block appColorBg white" ng-click="myProfile()">My Profile</button>
+                    </div>
+                </a>
+
+            </ion-list>
+            <div class="list">
+                <div class="item item-divider">
+                    My Course Lists
+                </div>
+
+                <a ng-repeat="item in items" ui-sref='app.courseDetail({id: item.id,name:item.name,author:item.authorinfo,image:item.imagelink,duration:item.duration,description:item.description})'  class="item item-thumbnail-left item-text-wrap">
+                    <img class="img-rounded" ng-src="{{item.imagelink}}">
+                    <h2 style="color:#B20000;"><strong>{{ item.name }}</strong></h2>
+                    <span class="item-desc" style="color:#333;" ng-bind-html="item.description | cut:true:120:' ...'"> </span>
+
+                    <h3 class="icon ion-person" style="color:grey; float:right;"> {{ item.authorinfo }} </h3>
+                </a>
+                <br/>
+                <p ng-if="items.length == 0">
+                    <span class="text-center">No course to display for this tutor</span>
+                </p>
+
+            </div>
+
+        </ion-content>
+    </ion-view>
+</script>
+
+<script id="main.html" type="text/ng-template">
+    <ion-view title="Enaptin Mobile" hide-back-button="false" hide-nav-bar="false">
+        <ion-header-bar class="appColorBg">
+            <h1 class="title appColorBg white">Enaptin Mobile</h1>
+        </ion-header-bar>
+        <ion-nav-buttons side="left">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon white"></button>
+        </ion-nav-buttons>
+
+        <ion-content>
+            <ion-list>
+                <a class="item item-thumbnail-left">
+                    <img ng-src="{{ image }}">
+                    <h2 class="appColor" style="font-size:1.2em"><strong> {{ display_name }} </strong></h2>
+                    <h2 class="appColor"><strong> {{ email }} </strong></h2>
+
+                    <div>
+                        <button class="button button-block appColorBg white" ng-click="myProfile()">My Profile</button>
+                    </div>
+                </a>
+
+            </ion-list>
+            <div class="list">
+                <div class="item item-divider">
+                    Please Select Categories
+                </div>
+                <a class="item item-icon-left" ui-sref='app.courses({Id: item.id})' ng-repeat="item in items">
+                    <i class="icon ion-disc"></i>
+                    {{ item.name }}
+                </a>
+
+            </div>
+
+        </ion-content>
+        <div class="bar bar-footer appColorBg">
+            <div class="title white">Powered by BytePlus Nigeria</div>
+        </div>
+    </ion-view>
+</script>
+
+<script id="documents.html" type="text/ng-template">
+    <ion-view title="Enaptin - Document Course Chapters" hide-back-button="false" hide-nav-bar="false">
+        <ion-nav-buttons side="left">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon white"></button>
+        </ion-nav-buttons>
+        <ion-header-bar class="appColorBg">
+            <h1 class="title white">Enaptin - Document Course Chapters</h1>
+        </ion-header-bar>
+        <ion-content padding="false">
+            <ion-refresher on-refresh="refreshCourses()" style="padding-top:20px; vertical-align:middle;">Pull to refresh</ion-refresher>
+            <!--the news list-->
+            <div class="list">
+                <a ng-repeat="item in items" class="item item-avatar item-icon-right" ng-click = "showDoc('{{item.document_filelink}}')">
+                    <img class="img-rounded" ng-src="{{item.doc_imagelink}}">
+                    <h2 style="color:#B20000;"><strong>{{ item.name }}</strong></h2>
+
+                    <i class="icon ion-document-text" ng-click=""></i>
+                </a>
+                <br/>
+                <p ng-if="items.length == 0">
+                    <span class="text-center">Nothing to display</span>
+                </p>
+
+            </div>
+
+        </ion-content>
+    </ion-view>
+</script>
+
+<script id="videos.html" type="text/ng-template">
+    <ion-view title="Enaptin - Video Course Chapters" hide-back-button="false" hide-nav-bar="false">
+        <ion-nav-buttons side="left">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon white"></button>
+        </ion-nav-buttons>
+        <ion-header-bar class="appColorBg">
+            <h1 class="title white">Enaptin - Video Course Chapters</h1>
+        </ion-header-bar>
+        <ion-content padding="false">
+            <ion-refresher on-refresh="refreshCourses()" style="padding-top:20px; vertical-align:middle;">Pull to refresh</ion-refresher>
+            <!--the news list-->
+            <div class="list">
+                <a ng-repeat="item in items" class="item item-avatar item-icon-right" ng-click = "showVideo('{{item.video_filelink}}')">
+                    <img class="img-rounded" ng-src="{{item.video_imagelink}}">
+                    <h2 style="color:#B20000;"><strong>{{ item.name }}</strong></h2>
+                    <i class="icon ion-videocamera"></i>
+                </a>
+                <br/>
+                <p ng-if="items.length == 0">
+                    <span class="text-center">Nothing to display</span>
+                </p>
+
+            </div>
+
+        </ion-content>
+    </ion-view>
+</script>
+
+
+<script id="profile.html" type="text/ng-template">
+    <ion-view title="My Profile">
+        <ion-nav-buttons side="left">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+        </ion-nav-buttons>
+        <ion-content padding="true">
+            <div class="list">
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">First Name</span>
+                    <input type="text" value="{{firstname}}" readonly>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Last Name</span>
+                    <input type="text" value="{{lastname}}" readonly>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Email</span>
+                    <input type="text" value="{{email}}" readonly>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">User Type</span>
+                    <input type="text" value="{{usertype}}" readonly>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Qualification</span>
+                    <input type="text" value="{{qualification}}" readonly>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Device Model</span>
+                    <input type="text" value="{{devicemodel}}" readonly>
+                </label>
+            </div>
+        </ion-content>
+    </ion-view>
+</script>
+
+<script id="videoplay.html" type="text/ng-template">
+    <ion-view title="Enaptin - Video Player">
+        <ion-nav-buttons side="left">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+        </ion-nav-buttons>
+        <ion-content padding="true">
+            <video class="responsive" width="100%" height="545px" controls >
+                <source ng-src="{{getLink()}}">
+                <!--<source ng-src="http://ec2-54-149-75-24.us-west-2.compute.amazonaws.com/MobileApi/default/download/video.video_file.95fc9418c377e03a.43484150544552203120494e54524f44554354494f4e20544f20434f4d5055544552204e4554574f524b5320204e6574776f726b696e672042617369632e336770.3gp">-->
+            </video>
+
+        </ion-content>
+        <!--<div class="bar bar-footer appColorBg">
+            <div class="title white">Powered by BytePlus Nigeria</div>
+        </div>-->
+    </ion-view>
+</script>
+
+</body>
+</html>
